@@ -20,94 +20,91 @@ using UnityEngine;
 public class OVRPlayerController : MonoBehaviour
 {
 	/// <summary>
-	/// The rate acceleration during movement.
+	/// The rate acceleration during movement.移動加速度
 	/// </summary>
 	public float Acceleration = 0.1f;
 
 	/// <summary>
-	/// The rate of damping on movement.
+	/// The rate of damping on movement.動作時の減衰率
 	/// </summary>
 	public float Damping = 0.3f;
 
 	/// <summary>
-	/// The rate of additional damping when moving sideways or backwards.
+	/// The rate of additional damping when moving sideways or backwards.後方横移動時の負荷減衰率
 	/// </summary>
 	public float BackAndSideDampen = 0.5f;
 
 	/// <summary>
-	/// The force applied to the character when jumping.
+	/// The force applied to the character when jumping.ジャンプ力
 	/// </summary>
 	public float JumpForce = 0.3f;
 
 	/// <summary>
-	/// The rate of rotation when using a gamepad.
+	/// The rate of rotation when using a gamepad.ゲームパッドを使用するときの回転速度。
 	/// </summary>
 	public float RotationAmount = 1.5f;
 
 	/// <summary>
-	/// The rate of rotation when using the keyboard.
+	/// The rate of rotation when using the keyboard.キーボード使用時の回転速度。
 	/// </summary>
 	public float RotationRatchet = 45.0f;
 
 	/// <summary>
 	/// The player will rotate in fixed steps if Snap Rotation is enabled.
 	/// </summary>
-	[Tooltip("The player will rotate in fixed steps if Snap Rotation is enabled.")]
+	[Tooltip("スナップ回転が有効になっている場合、プレーヤーは固定ステップで回転します")]
 	public bool SnapRotation = true;
 
 	/// <summary>
 	/// [Deprecated] When enabled, snap rotation will happen about the guardian rather
 	/// than the player/camera viewpoint.
 	/// </summary>
-	[Tooltip("[Deprecated] When enabled, snap rotation will happen about the center of the " +
-		"guardian rather than the center of the player/camera viewpoint. This (legacy) " +
-		"option should be left off except for edge cases that require extreme behavioral " +
-		"backwards compatibility.")]
+	[Tooltip("[非推奨] 有効な場合、スナップ回転はプレイヤー/カメラの視点ではなく、ガーディアンについて行われます。回転するようになります。")]
 	public bool RotateAroundGuardianCenter = false;
 
 	/// <summary>
 	/// How many fixed speeds to use with linear movement? 0=linear control
 	/// </summary>
-	[Tooltip("How many fixed speeds to use with linear movement? 0=linear control")]
+	[Tooltip("リニア制御で使用する固定速度はいくつですか？0＝リニア制御")]
 	public int FixedSpeedSteps;
 
 	/// <summary>
-	/// If true, reset the initial yaw of the player controller when the Hmd pose is recentered.
+	/// trueの場合、Hmdポーズが再センターされたときのプレーヤーコントローラの初期ヨーをリセットします。
 	/// </summary>
 	public bool HmdResetsY = true;
 
 	/// <summary>
-	/// If true, tracking data from a child OVRCameraRig will update the direction of movement.
+	///true の場合、子 OVRCameraRig からのトラッキングデータは、DIR を更新します。
 	/// </summary>
 	public bool HmdRotatesY = true;
 
 	/// <summary>
-	/// Modifies the strength of gravity.
+	/// 重力の強さを変更します。
 	/// </summary>
 	public float GravityModifier = 0.379f;
 
 	/// <summary>
-	/// If true, each OVRPlayerController will use the player's physical height.
+	/// true の場合、各 OVRPlayerController はプレーヤーの物理的な高さを使用します。
 	/// </summary>
 	public bool useProfileData = true;
 
 	/// <summary>
-	/// The CameraHeight is the actual height of the HMD and can be used to adjust the height of the character controller, which will affect the
-	/// ability of the character to move into areas with a low ceiling.
+	/// CameraHeight は HMD の実際の高さであり、キャラクタ コントローラの高さに影響します。
+	/// これは、天井の低い場所にキャラクターが移動する能力に影響します。
 	/// </summary>
 	[NonSerialized]
 	public float CameraHeight;
 
 	/// <summary>
-	/// This event is raised after the character controller is moved. This is used by the OVRAvatarLocomotion script to keep the avatar transform synchronized
-	/// with the OVRPlayerController.
+	/// このイベントは、キャラクターコントローラが移動された後に発生します。これは OVRAvatarLocomotion スクリプトによって使用され、アバター変換の同期を維持します。
+	/// OVRPlayerController と同期させるために使用されます。
 	/// </summary>
 	public event Action<Transform> TransformUpdated;
 
 	/// <summary>
-	/// This bool is set to true whenever the player controller has been teleported. It is reset after every frame. Some systems, such as
-	/// CharacterCameraConstraint, test this boolean in order to disable logic that moves the character controller immediately
-	/// following the teleport.
+	///このboolは、プレーヤーコントローラーがテレポートされたときにtrueに設定されます。これは毎フレーム後にリセットされます。のようなシステムもあります。
+	/// キャラクタカメラ制約（CharacterCameraConstraint）などの一部のシステムでは、キャラクタコントローラをテレポート直後に移動させるロジックを無効にするためにこのブール値をテストする。
+	/// テレポートの直後にキャラクタコントローラを移動させるロジックを無効にするために、このブール値をテストする。
 	/// </summary>
 	[NonSerialized] // This doesn't need to be visible in the inspector.
 	public bool Teleported;
