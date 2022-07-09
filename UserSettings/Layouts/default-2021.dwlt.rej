@@ -1,0 +1,17 @@
+diff a/UserSettings/Layouts/default-2021.dwlt b/UserSettings/Layouts/default-2021.dwlt	(rejected hunks)
+@@ -14,12 +14,12 @@
+   m_EditorClassIdentifier: 
+   m_PixelRect:
+     serializedVersion: 2
+-    x: 1.6
++    x: 7.2000003
+     y: 50.4
+-    width: 1527.2001
++    width: 1521.6
+     height: 764.8
+   m_ShowMode: 4
+-  m_Title: Project
++  m_Title: Hierarchy
+   m_RootView: {fileID: 6}
+   m_MinSize: {x: 875, y: 300}
+   m_MaxSize: {x: 10000, y: 10000}
