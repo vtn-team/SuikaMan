@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : EnemyMoveStop
 {
     [SerializeField, Tooltip("追いかける相手")] GameObject _target;
     [SerializeField,Tooltip("エネミーのスピード")] float _speed = 0.1f;
     float distance;
+    
+
     /// <summary>徘徊してほしい場所</summary>
     [SerializeField] Transform[] _wanderingPoint;
     [SerializeField] int destPoint = 0;
@@ -18,6 +20,12 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if(stop == true)
+        {
+            return;
+        }
+            
+
         var playerPos = _target.transform.position;
         distance = Vector3.Distance(this.transform.position, playerPos);
 
