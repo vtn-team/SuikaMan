@@ -1,0 +1,10 @@
+diff a/Assets/Scenes/SampleScene.unity b/Assets/Scenes/SampleScene.unity	(rejected hunks)
+@@ -38,7 +38,7 @@
+   m_ReflectionIntensity: 1
+   m_CustomReflection: {fileID: 0}
+   m_Sun: {fileID: 705507994}
+-  m_IndirectSpecularColor: {r: 0.38223127, g: 0.4688933, b: 0.61398077, a: 1}
++  m_IndirectSpecularColor: {r: 0.38188004, g: 0.4685312, b: 0.6137576, a: 1}
+   m_UseRadianceAmbientProbe: 0
+ --- !u!157 &3
+ LightmapSettings:
