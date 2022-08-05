@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMoveStop : MonoBehaviour
 {
-    protected bool stop = false;
+    public bool stop = false;
     
      IEnumerator Stop()
     {
