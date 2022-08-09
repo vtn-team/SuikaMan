@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
 
         //// 配列内の次の位置を目標地点に設定し、
         //// 必要ならば出発地点にもどります
-        destPoint = (destPoint + 1) % _wanderingPoint.Length;
+        //destPoint = (destPoint + 1) % _wanderingPoint.Length;
     }
    
     private void OnCollisionEnter(Collision collision)
