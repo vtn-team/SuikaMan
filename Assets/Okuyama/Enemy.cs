@@ -10,7 +10,9 @@ public class Enemy : MonoBehaviour
     /// <summary>徘徊してほしい場所</summary>
     [SerializeField] Transform[] _wanderingPoint;
     [SerializeField] int destPoint = 0;
-    bool _enemy = true;
+    //加筆：笠
+    [SerializeField] private int _nowPoint = 0; 
+    public bool _enemy = true;
    
     void Start()
     {
@@ -44,6 +46,26 @@ public class Enemy : MonoBehaviour
             //targetに向かって進む
             transform.position += transform.forward * _speed;
         }
+        //加筆：笠
+        if(_enemy == false&&distance >= 15)
+        {
+            //徘徊してほしい座標に少しずつ向きが変わる
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_wanderingPoint[_nowPoint].transform.position - transform.position), 0.3f);
+            //徘徊してほしい座標に向かって進む
+            transform.position += transform.forward * _speed;
+            //座標との距離の大きさが3以内になったら
+            if((_wanderingPoint[_nowPoint].transform.position - transform.position).magnitude <= 3)
+            {
+                //次の座標に変える
+                _nowPoint++;
+            }
+            //最後の座標に到達したら始めの座標に向かう
+            if (_nowPoint > _wanderingPoint.Length-1 )
+            {
+                _nowPoint = 0;
+            }
+        }
+
     }
 
     void GotoNextPoint()
