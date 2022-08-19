@@ -70,6 +70,7 @@ public class ItemMechanism : MonoBehaviour
             if (_isGrab == false)
             {
                 IsGrab = true;
+                gameObject.layer = LayerMask.NameToLayer("GrabbedObject");
             }
         }
         if (_grabbable.isGrabbed == false)
@@ -77,6 +78,7 @@ public class ItemMechanism : MonoBehaviour
             if (_isGrab == true)
             {
                 IsGrab = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
             }
         }
 
@@ -89,7 +91,7 @@ public class ItemMechanism : MonoBehaviour
         //判別用クラスが取得できている場合
         if (type != null)
         {
-            Debug.Log(type.TagType);
+            //Debug.Log(type.TagType);
 
             //アイテムの種類と使用エリアのタイプが対応しているとき
             if (_itemType == type.TagType)
@@ -130,5 +132,6 @@ public class ItemMechanism : MonoBehaviour
     public void OnValueChanged()
     {
         Debug.Log($"速度:{_velocity.magnitude}");
+
     }
 }

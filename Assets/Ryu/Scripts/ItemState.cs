@@ -1,11 +1,13 @@
 public enum ItemType
 {
-    Wood = 0,
-    Stone = 1,
-    cloth,
-    wrench,
-    Key,
+    Invalid = 0,
+    Wood = 1,
+    Stone = 2,
+    cloth = 3,
+    wrench = 4,
+    Roop = 5,
+    Key = 6,
 
 
-    Camera
+    Camera = 9
 }
