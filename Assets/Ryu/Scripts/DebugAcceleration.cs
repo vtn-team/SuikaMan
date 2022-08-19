@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+/// <summary>
+/// ‰Á‘¬“x‚ð‰ÂŽ‹‰»‚·‚é‚½‚ß‚Ìscript
+/// </summary>
 public class DebugAcceleration : MonoBehaviour
 {
     [SerializeField] private OVRInput.Controller Rcontroller;
