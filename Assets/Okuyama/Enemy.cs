@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (_stanEnemy.stop) { return; }
+        //加筆：笠
+        if (_stanEnemy && _stanEnemy.stop) { return; }
         var playerPos = _target.transform.position;
         distance = Vector3.Distance(this.transform.position, playerPos);
 
@@ -38,8 +39,14 @@ public class Enemy : MonoBehaviour
         if(distance < 15)
         {
             _enemy = false;
+            //加筆
+            Vector3 target = _target.transform.position;
+            target.y= 0;
+            Vector3 enemy = transform.position;
+            enemy.y = 0;
+
             //targetの方に少しずつ向きが変わる
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_target.transform.position - transform.position), 0.3f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.3f);
 
             //targetに向かって進む
             transform.position += transform.forward * _speed;
@@ -56,15 +63,27 @@ public class Enemy : MonoBehaviour
         // 地点がなにも設定されていないときに返します
         if (_wanderingPoint.Length == 0)
             return;
-;
+        
+        //加筆
+        Vector3 target = _wanderingPoint[destPoint].position;
+        target.y = 0;
+        Vector3 enemy = transform.position;
+        enemy.y = 0;
+
         //targetの方に少しずつ向きが変わる
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_wanderingPoint[destPoint].position - transform.position), 0.3f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.3f);
+
         //targetに向かって進む
         transform.position += transform.forward * _speed;
 
-        //// 配列内の次の位置を目標地点に設定し、
-        //// 必要ならば出発地点にもどります
-        //destPoint = (destPoint + 1) % _wanderingPoint.Length;
+        //加筆
+        float distance = Vector3.Distance(target, enemy);
+        if (distance < 0.5f)
+        {
+            //// 配列内の次の位置を目標地点に設定し、
+            //// 必要ならば出発地点にもどります
+            destPoint = (destPoint + 1) % _wanderingPoint.Length;
+        }
     }
    
     private void OnCollisionEnter(Collision collision)
@@ -86,4 +105,14 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.tag == "aa") { _enemy = true; }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        _stanEnemy = other.GetComponent<StanEnemy>();
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        _stanEnemy = null;
+    }
 }
+

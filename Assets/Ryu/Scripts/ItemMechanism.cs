@@ -42,8 +42,8 @@ public class ItemMechanism : MonoBehaviour
         //OVRGrabbableを取得する
         _grabbable = GetComponent<OVRGrabbable>();
 
-        //アイテムがカメラならば
-        if (Type == ItemType.Camera)
+        //アイテムがスタンアイテムならば
+        if (Type == ItemType.Stan)
         {
             //使用可能にする
             _isUsable = true;
