@@ -6,11 +6,27 @@ using UnityEngine;
 /// </summary>
 public class ItemMechanism : MonoBehaviour
 {
+    private Rigidbody rb;
     //OVRの掴まれるオブジェクトに付けるコンポーネント
     private OVRGrabbable _grabbable;
-
+    private Vector3 _velocity;
     [Tooltip("アイテムの種類"),SerializeField] private ItemType _itemType;
     [Tooltip("使用可能判定"),SerializeField] private bool _isUsable = false;
+    ItemTag type;
+    private bool _isGrab;
+
+    public bool IsGrab
+    {
+        get { return _isGrab; }
+        set 
+        {
+            _isGrab = value;
+            if (value == false)
+            {
+                OnValueChanged();
+            }
+        }
+    }
 
     /// <summary>
     /// アイテムの種類を読み取るのみ
@@ -22,11 +38,12 @@ public class ItemMechanism : MonoBehaviour
 
     void Start()
     {
+        rb= GetComponent<Rigidbody>();
         //OVRGrabbableを取得する
         _grabbable = GetComponent<OVRGrabbable>();
 
-        //アイテムがカメラならば
-        if (Type == ItemType.Camera)
+        //アイテムがスタンアイテムならば
+        if (Type == ItemType.Stan)
         {
             //使用可能にする
             _isUsable = true;
@@ -36,6 +53,7 @@ public class ItemMechanism : MonoBehaviour
  
     void Update()
     {
+        _velocity = rb.velocity;
         //手に持ちながら、「OculusコントローラーのAボタン」または「左クリック」をしたとき
         if (_grabbable.isGrabbed == true &&OVRInput.GetDown(OVRInput.Button.One)||Input.GetButtonDown("Fire1"))
         {
@@ -47,16 +65,33 @@ public class ItemMechanism : MonoBehaviour
 
             }
         }
-    }
+        if (_grabbable.isGrabbed == true)
+        {
+            if (_isGrab == false)
+            {
+                IsGrab = true;
+                gameObject.layer = LayerMask.NameToLayer("GrabbedObject");
+            }
+        }
+        if (_grabbable.isGrabbed == false)
+        {
+            if (_isGrab == true)
+            {
+                IsGrab = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+        }
 
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         //アイテム使用エリアの判別用クラスを取得する
-        var type = other.GetComponent<ItemTag>();
+        type = other.GetComponent<ItemTag>();
         //判別用クラスが取得できている場合
         if (type != null)
         {
-            Debug.Log(type.TagType);
+            //Debug.Log(type.TagType);
 
             //アイテムの種類と使用エリアのタイプが対応しているとき
             if (_itemType == type.TagType)
@@ -70,7 +105,7 @@ public class ItemMechanism : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         //アイテム使用エリアの判別用クラスを取得する
-        var type = other.GetComponent<ItemTag>();
+        type = other.GetComponent<ItemTag>();
         //判別用クラスが取得できている場合
         if (type != null)
         {
@@ -86,8 +121,17 @@ public class ItemMechanism : MonoBehaviour
     //アイテムを使用する時の処理
     public void UseItem()
     {
+        if (type != null)
+        {
+            type.AdvancePhase();
+        }
         //アイテムを消費する
         Destroy(gameObject);
         Debug.Log("アイテムを使った");
+    }
+    public void OnValueChanged()
+    {
+        Debug.Log($"速度:{_velocity.magnitude}");
+
     }
 }
