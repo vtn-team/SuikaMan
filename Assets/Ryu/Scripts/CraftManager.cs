@@ -19,7 +19,7 @@ public class CraftManager : MonoBehaviour
     void Update()
     {
         //OVRコントローラーのBボタンが押されたとき
-        if (OVRInput.GetDown(OVRInput.Button.Two))
+        if (OVRInput.GetDown(OVRInput.Button.One))
         {
             //周辺のアイテム数がクラフトの素材数より多いなら
             if (_craftMaterials.Count <= _surroundItems.Count)

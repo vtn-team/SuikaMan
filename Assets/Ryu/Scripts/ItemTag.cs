@@ -20,7 +20,7 @@ public class ItemTag : MonoBehaviour
     {
         if (_gameObject != null)
         {
-            _gameObject.SetActive(true);
+            Instantiate(_gameObject);
         }
         if(TagType == ItemType.Key)
         {
