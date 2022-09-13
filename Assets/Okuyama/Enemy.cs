@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,9 +14,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform[] _wanderingPoint;
     [SerializeField] int destPoint = 0;
     public bool _enemy = true;
-   
+    public bool _isCover = false;
+
+    public float _missTime = 5f;
+    private float _tempTime = 0;
+    Rigidbody rb;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         GotoNextPoint();
     }
 
@@ -23,7 +31,6 @@ public class Enemy : MonoBehaviour
         if (_stanEnemy && _stanEnemy.stop) { return; }
         var playerPos = _target.transform.position;
         distance = Vector3.Distance(this.transform.position, playerPos);
-
         //if (distance < 15)
         //{
         //    //target‚Ì•û‚É­‚µ‚¸‚ÂŒü‚«‚ª•Ï‚í‚é
@@ -36,20 +43,23 @@ public class Enemy : MonoBehaviour
         {
             GotoNextPoint();
         }
-        if(distance < 15)
+        if (distance < 15)
         {
-            _enemy = false;
+            Ray();
             //‰Á•M
             Vector3 target = _target.transform.position;
-            target.y= 0;
+            target.y = 0;
             Vector3 enemy = transform.position;
             enemy.y = 0;
+            if (!_enemy)
+            {
+                //target‚Ì•û‚É­‚µ‚¸‚ÂŒü‚«‚ª•Ï‚í‚é
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.7f);
 
-            //target‚Ì•û‚É­‚µ‚¸‚ÂŒü‚«‚ª•Ï‚í‚é
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.3f);
-
-            //target‚ÉŒü‚©‚Á‚Äi‚Þ
-            transform.position += transform.forward * _speed;
+                //target‚ÉŒü‚©‚Á‚Äi‚Þ
+                //transform.position += transform.forward * _speed;
+                rb.velocity = transform.forward * _speed;
+            }
         }
         //‰Á•MFŠ}
         if (distance >= 15)
@@ -58,6 +68,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_isCover&&!_enemy)
+        {
+            _tempTime += Time.deltaTime;
+        }
+        //Debug.Log(_tempTime);
+        if (_missTime < _tempTime)
+        {
+            _enemy = true;
+            _isCover = false;
+            _tempTime = 0;
+            Debug.Log("‚ ‚«‚ç‚ß‚½");
+        }
+    }
     void GotoNextPoint()
     {
         // ’n“_‚ª‚È‚É‚àÝ’è‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚É•Ô‚µ‚Ü‚·
@@ -71,11 +96,11 @@ public class Enemy : MonoBehaviour
         enemy.y = 0;
 
         //target‚Ì•û‚É­‚µ‚¸‚ÂŒü‚«‚ª•Ï‚í‚é
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.3f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - enemy), 0.7f);
 
         //target‚ÉŒü‚©‚Á‚Äi‚Þ
-        transform.position += transform.forward * _speed;
-
+        //transform.position += transform.forward * _speed;
+        rb.velocity = transform.forward * _speed;
         //‰Á•M
         float distance = Vector3.Distance(target, enemy);
         if (distance < 0.5f)
@@ -85,7 +110,32 @@ public class Enemy : MonoBehaviour
             destPoint = (destPoint + 1) % _wanderingPoint.Length;
         }
     }
-   
+
+    public void Ray()
+    {
+        var player = _target.transform.position;
+         var distance = Vector3.Distance(this.transform.position, player);
+        var array = Physics.RaycastAll(transform.position, player- this.transform.position);
+        _isCover = false;
+        foreach (var item in array)
+        {
+            if(item.transform.gameObject.tag == "Obstacle")
+            {
+                if(item.distance < distance)
+                {
+                    _isCover = true;
+                    //Debug.Log("cover");
+                }
+            }
+            if (_isCover == false && item.transform.gameObject.tag == "Player")
+            {
+                _enemy = false;
+                //Debug.Log("discovery");
+            }
+        }
+        
+    }
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == "aa")
