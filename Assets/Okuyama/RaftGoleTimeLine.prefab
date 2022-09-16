@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &805929098672505468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 805929098672505464}
+  - component: {fileID: 805929098672505465}
+  - component: {fileID: 805929098672505466}
+  - component: {fileID: 805929098672505463}
+  m_Layer: 0
+  m_Name: RaftGoleTimeLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &805929098672505464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805929098672505468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &805929098672505465
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805929098672505468}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 2401575906635499445, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 2548965715105174566, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -4990718399383270305, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -1583079326755466448, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -5166778408562416096, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -6765312914129490835, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 6271851750029529406, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -5037771713570976416, guid: 43372b5db9e78b045b85ed7f07f098cc, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
+--- !u!65 &805929098672505466
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805929098672505468}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 400.10358, y: 16.26318, z: 8.414087}
+  m_Center: {x: 199.55179, y: 4.2591133, z: 3.7070434}
+--- !u!114 &805929098672505463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805929098672505468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674e83cf30be2fa40af7082f5aba5048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyObj: {fileID: 0}
+  _goleTimeLineObj: {fileID: 805929098672505468}
