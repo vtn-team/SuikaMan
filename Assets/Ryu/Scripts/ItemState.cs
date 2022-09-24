@@ -5,9 +5,9 @@ public enum ItemType
     Stone = 2,
     Cloth = 3,
     Plastic = 4,
-    Roop = 5,
+    Rope = 5,
     Key = 6,
-    Paper = 7,
+    Axe = 7,
     Blueprint = 8,
 
     Stan = 9
