@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +5,18 @@ public class CraftManager : MonoBehaviour
 {
     [Tooltip("周辺アイテムのリスト"), SerializeField] private List<GameObject> _surroundItems = new List<GameObject>();
 
-    [Tooltip("クラフト素材のリスト"), SerializeField] private List<ItemType> _craftMaterials = new List<ItemType>();
-    [Tooltip("クラフト後のアイテム"), SerializeField] private GameObject _craftItem;
+    [Tooltip("クラフト素材のリスト"), SerializeField] private List<ItemType> _craftMaterials1 = new List<ItemType>();
+    [Tooltip("クラフト後のアイテム"), SerializeField] private GameObject _craftItem1;
+    CraftMechanism _crRaft;
 
+    [Tooltip("クラフト素材のリスト"), SerializeField] private List<ItemType> _craftMaterials2 = new List<ItemType>();
+    [Tooltip("クラフト後のアイテム"), SerializeField] private GameObject _craftItem2;
+    CraftMechanism _crKey;
     // Start is called before the first frame update
     void Start()
     {
-         
+        _crRaft = new CraftMechanism(_craftMaterials1,_craftItem1,0);
+        _crKey = new CraftMechanism(_craftMaterials2,_craftItem2,1);
     }
 
     // Update is called once per frame
@@ -22,7 +26,13 @@ public class CraftManager : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
             //周辺のアイテム数がクラフトの素材数より多いなら
-            if (_craftMaterials.Count <= _surroundItems.Count)
+            if (_craftMaterials1.Count <= _surroundItems.Count)
+            {
+                //周辺アイテムの照らし合わせを行う
+                CheckList();
+            }
+            //周辺のアイテム数がクラフトの素材数より多いなら
+            if (_craftMaterials2.Count <= _surroundItems.Count)
             {
                 //周辺アイテムの照らし合わせを行う
                 CheckList();
@@ -70,7 +80,7 @@ public class CraftManager : MonoBehaviour
     public void CraftItem()
     {
         //プレイヤーの前方にクラフト後のアイテムを生成する
-        Instantiate(_craftItem, transform.position += transform.forward
+        Instantiate(_craftItem2, transform.position += transform.forward
             , transform.rotation);
     }
     //周辺のアイテムのリストを照合する処理
@@ -87,7 +97,7 @@ public class CraftManager : MonoBehaviour
         //クラフト可能かどうか 
         bool canCraft = true;
         //クラフト素材を全て確認するとき
-        foreach(var item in _craftMaterials)
+        foreach(var item in _craftMaterials2)
         {
             //現在のアイテムが存在するかどうか
             bool itemFind = false;
@@ -205,3 +215,15 @@ public class CraftManager : MonoBehaviour
     }
 }
 
+public class CraftMechanism
+{
+    private List<ItemType> craftMaterials;
+    private GameObject craftItem;
+    private int priority;
+    public CraftMechanism(List<ItemType> materials, GameObject item, int priority)
+    {
+        craftMaterials = materials;
+        craftItem = item;
+        this.priority = priority;
+    }
+}
