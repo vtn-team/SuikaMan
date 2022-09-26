@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Obstacle
   - aa
+  - Point
   layers:
   - Default
   - TransparentFX
