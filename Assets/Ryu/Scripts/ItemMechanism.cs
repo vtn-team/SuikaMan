@@ -94,11 +94,18 @@ public class ItemMechanism : MonoBehaviour
             //Debug.Log(type.TagType);
 
             //アイテムの種類と使用エリアのタイプが対応しているとき
-            if (_itemType == type.TagType)
+            if (Type == type.TagType)
             {
                 //アイテムを使用可能にする
                 _isUsable = true;
                 Debug.Log($"使用可能:{Type}");
+                if(Type == ItemType.Axe)
+                {
+                    if(_velocity.magnitude > 25)
+                    {
+                        UseItem();
+                    }
+                }
             }
         }
     }
@@ -110,7 +117,7 @@ public class ItemMechanism : MonoBehaviour
         if (type != null)
         {
             //このアイテムの種類と判別用クラスの種類が同じなら
-            if (_itemType == type.TagType)
+            if (Type == type.TagType)
             {
                 //アイテムを使用不可能にする
                 _isUsable = false;
@@ -125,9 +132,13 @@ public class ItemMechanism : MonoBehaviour
         {
             type.AdvancePhase();
         }
-        //アイテムを消費する
-        Destroy(gameObject);
+        if (Type != ItemType.Axe)
+        {
+            //アイテムを消費する
+            Destroy(gameObject);
+        }
         Debug.Log("アイテムを使った");
+        
     }
     public void OnValueChanged()
     {

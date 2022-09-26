@@ -20,7 +20,8 @@ public class ItemTag : MonoBehaviour
     {
         if (_gameObject != null)
         {
-            Instantiate(_gameObject);
+            Instantiate(_gameObject,new Vector3(transform.position.x, transform.position.y+3, transform.position.z),transform.rotation);
+            Destroy(this.gameObject);
         }
         if(TagType == ItemType.Key)
         {
